@@ -8,6 +8,7 @@ from agent.schemas.models import (
     PostOutput,
     ValidateOutput,
 )
+
 from .base import check_invariant
 
 CONFIDENCE_THRESHOLD = 0.85

@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Generator
 from contextlib import contextmanager
-from typing import Any, Generator
+from typing import Any
 
 import structlog
 

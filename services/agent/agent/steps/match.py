@@ -10,8 +10,8 @@ from agent.config import settings
 from agent.db import get_client
 from agent.invariants import match_invariants, run_invariants
 from agent.schemas.models import (
-    EnrichOutput,
     EnrichedTransaction,
+    EnrichOutput,
     MatchCandidate,
     MatchDecision,
     MatchOutput,
@@ -51,7 +51,7 @@ def _fetch_invoice_candidates(
                 issued_date=row["issued_date"],
                 due_date=row["due_date"],
                 amount_diff_cents=abs(txn.amount_cents - row["amount_cents"]),
-                date_diff_days=abs((txn.date - row["issued_date"]).days),  # type: ignore[operator]
+                date_diff_days=abs((txn.date - row["issued_date"]).days),
                 vendor_similarity=sim,
             )
         )
@@ -165,13 +165,15 @@ def run_match(
             decisions.append(decision)
 
         output = MatchOutput(run_id=run_id, decisions=decisions)
-        invariant_results = run_invariants(
-            [
-                lambda o, e=len(transactions): match_invariants(o, e)[0],
-                lambda o, e=len(transactions): match_invariants(o, e)[1],
-            ],
-            output,
-        )
+        expected = len(transactions)
+
+        def _inv0(o: MatchOutput, e: int = expected) -> Any:
+            return match_invariants(o, e)[0]
+
+        def _inv1(o: MatchOutput, e: int = expected) -> Any:
+            return match_invariants(o, e)[1]
+
+        invariant_results = run_invariants([_inv0, _inv1], output)
 
         tracer.write(
             input_json=input_data,

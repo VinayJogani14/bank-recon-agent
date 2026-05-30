@@ -85,11 +85,11 @@ def llm_pick_match(inp: LLMMatchInput, temperature: float = 0.0) -> LLMMatchOutp
     )
 
     client = _get_client()
-    response = client.messages.create(
+    response = client.messages.create(  # type: ignore[call-overload]
         model=settings.llm_model,
         max_tokens=settings.llm_max_tokens,
         temperature=temperature,
-        tools=[PICK_MATCH_TOOL],  # type: ignore[list-item]
+        tools=[PICK_MATCH_TOOL],
         tool_choice={"type": "any"},
         messages=[{"role": "user", "content": prompt}],
     )

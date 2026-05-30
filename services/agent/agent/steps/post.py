@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import structlog
@@ -35,7 +35,7 @@ def run_post(run_id: str, validate_output: ValidateOutput, attempt: int = 1) -> 
                     "transaction_id": d.transaction_id,
                     "invoice_id": d.invoice_id,
                     "amount_cents": 0,  # populated below
-                    "posted_at": datetime.now(timezone.utc).isoformat(),
+                    "posted_at": datetime.now(UTC).isoformat(),
                     "confidence": d.confidence,
                     "created_by_run_id": run_id,
                 }
@@ -52,7 +52,7 @@ def run_post(run_id: str, validate_output: ValidateOutput, attempt: int = 1) -> 
             )
             amounts = {r["id"]: r["amount_cents"] for r in (txn_resp.data or [])}
 
-            for i, row in enumerate(ledger_rows):
+            for _i, row in enumerate(ledger_rows):
                 row["amount_cents"] = amounts.get(row["transaction_id"], 0)
 
             db.table("ledger_entries").insert(ledger_rows).execute()

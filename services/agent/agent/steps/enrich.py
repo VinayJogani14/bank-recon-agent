@@ -7,7 +7,7 @@ from typing import Any
 import structlog
 
 from agent.invariants import enrich_invariants, run_invariants
-from agent.schemas.models import EnrichOutput, EnrichedTransaction, IngestOutput
+from agent.schemas.models import EnrichedTransaction, EnrichOutput, IngestOutput
 from agent.traces import trace_step
 
 log = structlog.get_logger()
@@ -56,13 +56,15 @@ def run_enrich(run_id: str, ingest_output: IngestOutput, attempt: int = 1) -> En
             )
 
         output = EnrichOutput(run_id=run_id, transactions=enriched)
-        invariant_results = run_invariants(
-            [
-                lambda o, e=len(ingest_output.valid_rows): enrich_invariants(o, e)[0],
-                lambda o, e=len(ingest_output.valid_rows): enrich_invariants(o, e)[1],
-            ],
-            output,
-        )
+        expected = len(ingest_output.valid_rows)
+
+        def _inv0(o: EnrichOutput, e: int = expected) -> Any:
+            return enrich_invariants(o, e)[0]
+
+        def _inv1(o: EnrichOutput, e: int = expected) -> Any:
+            return enrich_invariants(o, e)[1]
+
+        invariant_results = run_invariants([_inv0, _inv1], output)
 
         tracer.write(
             input_json=input_data,

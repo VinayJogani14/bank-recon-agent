@@ -4,8 +4,8 @@ from typing import Any
 
 import structlog
 
-from agent.invariants import validate_invariants, run_invariants
-from agent.schemas.models import MatchOutput, ValidateOutput, MatchDecision
+from agent.invariants import run_invariants, validate_invariants
+from agent.schemas.models import MatchDecision, MatchOutput, ValidateOutput
 from agent.traces import trace_step
 
 log = structlog.get_logger()

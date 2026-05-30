@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from typing import Any
 
 import structlog
@@ -104,7 +104,7 @@ def execute_run(run_id: str, csv_bytes: bytes, csv_filename: str) -> PostOutput:
         )
 
         # ── Step 5: Post ──────────────────────────────────────────────────────
-        post_output = _retry_step(
+        post_output: PostOutput = _retry_step(
             "post",
             lambda attempt: run_post(run_id, validate_output, attempt),
         )
@@ -119,7 +119,7 @@ def execute_run(run_id: str, csv_bytes: bytes, csv_filename: str) -> PostOutput:
             run_id,
             {
                 "status": "completed",
-                "finished_at": datetime.now(timezone.utc).isoformat(),
+                "finished_at": datetime.now(UTC).isoformat(),
                 "total_rows": total_rows,
                 "matched": post_output.ledger_entries_created,
                 "escalated": escalated,
@@ -133,7 +133,7 @@ def execute_run(run_id: str, csv_bytes: bytes, csv_filename: str) -> PostOutput:
             run_id,
             {
                 "status": "failed",
-                "finished_at": datetime.now(timezone.utc).isoformat(),
+                "finished_at": datetime.now(UTC).isoformat(),
             },
         )
         log.exception("run_failed", run_id=run_id, error=str(exc))
@@ -194,7 +194,6 @@ def replay_step(run_id: str, step_name: str) -> Any:
     if not rows:
         raise ValueError(f"No trace found for run {run_id}, step {step_name}")
 
-    original_input = rows[0]["input_json"]
     original_attempt = rows[0]["attempt"]
 
     log.info("replay_step", run_id=run_id, step=step_name)
@@ -205,8 +204,8 @@ def replay_step(run_id: str, step_name: str) -> Any:
     if step_name == "ingest":
         raise NotImplementedError("Ingest replay requires re-uploading the original CSV")
     elif step_name == "enrich":
-        from agent.steps.enrich import run_enrich as _run
         from agent.schemas.models import IngestOutput, RawTransaction
+        from agent.steps.enrich import run_enrich as _run
 
         raw_txns = (
             db.table("bank_transactions")
@@ -233,7 +232,7 @@ def replay_step(run_id: str, step_name: str) -> Any:
 
 def create_run(csv_filename: str) -> RunSummary:
     run_id = str(uuid.uuid4())
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
     db = get_client()
     db.table("runs").insert(
         {
@@ -245,7 +244,7 @@ def create_run(csv_filename: str) -> RunSummary:
     ).execute()
     return RunSummary(
         id=run_id,
-        started_at=datetime.now(timezone.utc),
+        started_at=datetime.now(UTC),
         finished_at=None,
         status="pending",
         csv_filename=csv_filename,

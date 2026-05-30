@@ -9,7 +9,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 
 from agent.db import get_client
-from evals.harness import run_evals
 from agent.runner import create_run, execute_run, replay_step
 from api.models import (
     EvalResultResponse,
@@ -18,6 +17,7 @@ from api.models import (
     RunResponse,
     TraceResponse,
 )
+from evals.harness import run_evals
 
 log = structlog.get_logger()
 

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import io
-from datetime import date
 from typing import Any
 
 import pandas as pd
@@ -69,10 +68,10 @@ def run_ingest(run_id: str, csv_bytes: bytes, attempt: int = 1) -> IngestOutput:
                 )
 
         output = IngestOutput(run_id=run_id, valid_rows=valid_rows, parse_errors=parse_errors)
-        invariant_results = run_invariants(
-            [lambda o, t=total_rows: ingest_invariants(o, t)[0]],  # type: ignore[misc]
-            output,
-        )
+        def _ingest_inv(o: IngestOutput, t: int = total_rows) -> Any:
+            return ingest_invariants(o, t)[0]
+
+        invariant_results = run_invariants([_ingest_inv], output)
 
         tracer.write(
             input_json=input_data,

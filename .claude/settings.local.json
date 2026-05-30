@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git init *)",
+      "Bash(mkdir -p apps/web services/agent supabase/migrations .github/workflows)"
+    ]
+  }
+}
