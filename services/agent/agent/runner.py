@@ -208,11 +208,7 @@ def replay_step(run_id: str, step_name: str) -> Any:
         from agent.steps.enrich import run_enrich as _run
 
         raw_txns = (
-            db.table("bank_transactions")
-            .select("*")
-            .eq("run_id", run_id)
-            .execute()
-            .data or []
+            db.table("bank_transactions").select("*").eq("run_id", run_id).execute().data or []
         )
         valid_rows = [
             RawTransaction(

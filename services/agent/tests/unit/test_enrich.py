@@ -1,4 +1,5 @@
 """Unit tests for merchant normalization and enrich step."""
+
 from __future__ import annotations
 
 from datetime import date
@@ -51,8 +52,13 @@ def test_enrich_output_count_matches_input(mock_ctx: MagicMock) -> None:
     from agent.steps.enrich import run_enrich
 
     txns = [
-        RawTransaction(row_index=i, date=date(2024, 1, 15), amount_cents=100000,
-                       description=f"Vendor{i}", account="checking")
+        RawTransaction(
+            row_index=i,
+            date=date(2024, 1, 15),
+            amount_cents=100000,
+            description=f"Vendor{i}",
+            account="checking",
+        )
         for i in range(5)
     ]
     ingest = IngestOutput(run_id="r1", valid_rows=txns, parse_errors=[])
@@ -70,8 +76,13 @@ def test_enrich_amounts_never_change(mock_ctx: MagicMock) -> None:
     from agent.steps.enrich import run_enrich
 
     txns = [
-        RawTransaction(row_index=0, date=date(2024, 1, 15), amount_cents=999999,
-                       description="Acme Corp", account="checking")
+        RawTransaction(
+            row_index=0,
+            date=date(2024, 1, 15),
+            amount_cents=999999,
+            description="Acme Corp",
+            account="checking",
+        )
     ]
     ingest = IngestOutput(run_id="r1", valid_rows=txns, parse_errors=[])
     output = run_enrich("r1", ingest)
@@ -89,8 +100,13 @@ def test_enrich_normalizes_merchant(mock_ctx: MagicMock) -> None:
     from agent.steps.enrich import run_enrich
 
     txns = [
-        RawTransaction(row_index=0, date=date(2024, 1, 15), amount_cents=150000,
-                       description="Acme Corp LLC", account="checking")
+        RawTransaction(
+            row_index=0,
+            date=date(2024, 1, 15),
+            amount_cents=150000,
+            description="Acme Corp LLC",
+            account="checking",
+        )
     ]
     ingest = IngestOutput(run_id="r1", valid_rows=txns, parse_errors=[])
     output = run_enrich("r1", ingest)

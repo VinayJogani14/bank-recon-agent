@@ -1,4 +1,5 @@
 """Unit tests for match and validate steps."""
+
 from __future__ import annotations
 
 from datetime import date
@@ -53,6 +54,7 @@ def _make_candidate(
 
 # ── Rule match tests ──────────────────────────────────────────────────────────
 
+
 def test_rule_match_exact_returns_decision():
     txn = _make_txn()
     candidates = [_make_candidate()]
@@ -103,6 +105,7 @@ def test_rule_match_date_within_window_passes():
 
 
 # ── Validate step tests ───────────────────────────────────────────────────────
+
 
 @patch("agent.steps.validate.trace_step")
 def test_validate_marks_low_confidence_for_escalation(mock_ctx: MagicMock) -> None:
@@ -156,6 +159,7 @@ def test_validate_high_confidence_passes(mock_ctx: MagicMock) -> None:
 
 
 # ── Enrich normalization edge cases ───────────────────────────────────────────
+
 
 def test_normalize_multiple_suffixes():
     result = _normalize_merchant("Acme Corp LLC Ltd")

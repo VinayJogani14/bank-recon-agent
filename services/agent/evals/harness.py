@@ -139,9 +139,7 @@ def run_evals() -> EvalReport:
     regressions: list[str] = []
     last_run = _fetch_last_eval_result()
     if last_run and last_run.get("accuracy") and accuracy < float(last_run["accuracy"]) - 0.02:
-        regressions.append(
-            f"accuracy dropped from {last_run['accuracy']:.4f} to {accuracy:.4f}"
-        )
+        regressions.append(f"accuracy dropped from {last_run['accuracy']:.4f} to {accuracy:.4f}")
 
     report = EvalReport(
         total_cases=total,

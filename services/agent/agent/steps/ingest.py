@@ -68,6 +68,7 @@ def run_ingest(run_id: str, csv_bytes: bytes, attempt: int = 1) -> IngestOutput:
                 )
 
         output = IngestOutput(run_id=run_id, valid_rows=valid_rows, parse_errors=parse_errors)
+
         def _ingest_inv(o: IngestOutput, t: int = total_rows) -> Any:
             return ingest_invariants(o, t)[0]
 

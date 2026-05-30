@@ -2,6 +2,7 @@
 Integration test: full pipeline on a fixture CSV.
 Mocks Supabase and LLM calls — runs all 5 steps and verifies invariants.
 """
+
 from __future__ import annotations
 
 import uuid
@@ -84,8 +85,13 @@ def test_pipeline_end_to_end(mock_supabase: MagicMock) -> None:
     # Step 3: Match (patch LLM)
     with patch("agent.steps.match.llm_pick_match") as mock_llm:
         mock_llm.return_value = MagicMock(
-            invoice_id=None, confidence=0.0, reasoning="no match",
-            tokens_in=10, tokens_out=5, cost_usd=0.0, model="test"
+            invoice_id=None,
+            confidence=0.0,
+            reasoning="no match",
+            tokens_in=10,
+            tokens_out=5,
+            cost_usd=0.0,
+            model="test",
         )
         match_out = run_match(run_id, enrich_out)
 
@@ -102,8 +108,7 @@ def test_pipeline_end_to_end(mock_supabase: MagicMock) -> None:
     mock_supabase.table.side_effect = None
     txn_tbl = MagicMock()
     txn_tbl.select.return_value.in_.return_value.execute.return_value.data = [
-        {"id": t.transaction_id, "amount_cents": t.amount_cents}
-        for t in enrich_out.transactions
+        {"id": t.transaction_id, "amount_cents": t.amount_cents} for t in enrich_out.transactions
     ]
     txn_tbl.insert.return_value.execute.return_value = MagicMock(data=[])
     txn_tbl.update.return_value.eq.return_value.execute.return_value = MagicMock()

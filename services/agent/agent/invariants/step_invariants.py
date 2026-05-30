@@ -16,6 +16,7 @@ CONFIDENCE_THRESHOLD = 0.85
 
 # ── Ingest ────────────────────────────────────────────────────────────────────
 
+
 def _ingest_row_count(output: IngestOutput, expected_total: int) -> InvariantResult:
     actual = len(output.valid_rows) + len(output.parse_errors)
     return check_invariant(
@@ -31,11 +32,10 @@ def ingest_invariants(output: IngestOutput, expected_total: int) -> list[Invaria
 
 # ── Enrich ────────────────────────────────────────────────────────────────────
 
+
 def _enrich_amounts_preserved(output: EnrichOutput) -> InvariantResult:
     mismatches = [
-        t.transaction_id
-        for t in output.transactions
-        if t.amount_cents != t.normalized_amount_cents
+        t.transaction_id for t in output.transactions if t.amount_cents != t.normalized_amount_cents
     ]
     return check_invariant(
         "enrich.amounts_preserved",
@@ -60,6 +60,7 @@ def enrich_invariants(output: EnrichOutput, expected: int) -> list[InvariantResu
 
 
 # ── Match ─────────────────────────────────────────────────────────────────────
+
 
 def _match_no_duplicate_invoices(output: MatchOutput) -> InvariantResult:
     matched_ids = [d.invoice_id for d in output.decisions if d.invoice_id]
@@ -88,6 +89,7 @@ def match_invariants(output: MatchOutput, expected: int) -> list[InvariantResult
 
 
 # ── Validate ──────────────────────────────────────────────────────────────────
+
 
 def _validate_confidence_or_escalated(output: ValidateOutput) -> InvariantResult:
     violators = [
@@ -120,6 +122,7 @@ def validate_invariants(output: ValidateOutput) -> list[InvariantResult]:
 
 
 # ── Post ──────────────────────────────────────────────────────────────────────
+
 
 def _post_count_balance(output: PostOutput) -> InvariantResult:
     total = output.ledger_entries_created + output.review_queue_created

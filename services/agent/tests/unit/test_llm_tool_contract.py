@@ -1,4 +1,5 @@
 """Contract tests: LLM tool schemas must match expected structure."""
+
 from __future__ import annotations
 
 from agent.tools.llm_match import PICK_MATCH_TOOL

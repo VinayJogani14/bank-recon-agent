@@ -1,4 +1,5 @@
 """Unit tests for FastAPI endpoints using TestClient."""
+
 from __future__ import annotations
 
 import io
@@ -46,7 +47,9 @@ def test_list_runs_empty(mock_supabase: MagicMock):
 
 def test_list_runs_returns_data(mock_supabase: MagicMock):
     row = _run_row()
-    mock_supabase.table.return_value.select.return_value.order.return_value.limit.return_value.execute.return_value.data = [row]
+    mock_supabase.table.return_value.select.return_value.order.return_value.limit.return_value.execute.return_value.data = [
+        row
+    ]
     resp = client.get("/runs")
     assert resp.status_code == 200
     data = resp.json()
@@ -62,7 +65,9 @@ def test_get_run_not_found(mock_supabase: MagicMock):
 
 def test_get_run_success(mock_supabase: MagicMock):
     row = _run_row()
-    mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [row]
+    mock_supabase.table.return_value.select.return_value.eq.return_value.execute.return_value.data = [
+        row
+    ]
     resp = client.get(f"/runs/{row['id']}")
     assert resp.status_code == 200
     assert resp.json()["id"] == row["id"]
@@ -81,7 +86,9 @@ def test_post_runs_requires_csv(mock_supabase: MagicMock):
 
 
 def test_post_runs_accepts_csv(mock_supabase: MagicMock):
-    mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [{"id": "run-1"}]
+    mock_supabase.table.return_value.insert.return_value.execute.return_value.data = [
+        {"id": "run-1"}
+    ]
     csv_content = b"date,amount,description,account\n2024-01-15,1500.00,Acme,checking"
     with patch("api.main.execute_run"):
         resp = client.post(

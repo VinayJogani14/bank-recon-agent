@@ -1,4 +1,5 @@
 """Unit tests for every invariant function."""
+
 from __future__ import annotations
 
 from datetime import date
@@ -27,6 +28,7 @@ from agent.schemas.models import (
 )
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def make_raw_txn(row_index: int = 0) -> RawTransaction:
     return RawTransaction(
@@ -71,6 +73,7 @@ def make_decision(
 
 # ── Ingest invariants ─────────────────────────────────────────────────────────
 
+
 def test_ingest_row_count_passes():
     output = IngestOutput(
         run_id="r1",
@@ -89,6 +92,7 @@ def test_ingest_row_count_fails():
 
 
 # ── Enrich invariants ─────────────────────────────────────────────────────────
+
 
 def test_enrich_amounts_preserved_pass():
     e = make_enriched()
@@ -120,6 +124,7 @@ def test_enrich_row_count_fails():
 
 
 # ── Match invariants ──────────────────────────────────────────────────────────
+
 
 def test_match_no_duplicates_pass():
     output = MatchOutput(
@@ -153,6 +158,7 @@ def test_match_count_mismatch_fails():
 
 
 # ── Validate invariants ───────────────────────────────────────────────────────
+
 
 def test_validate_low_confidence_not_escalated_fails():
     output = ValidateOutput(
@@ -192,6 +198,7 @@ def test_validate_no_duplicate_invoices():
 
 # ── Post invariants ───────────────────────────────────────────────────────────
 
+
 def test_post_count_balance_passes():
     output = PostOutput(
         run_id="r1",
@@ -214,6 +221,7 @@ def test_post_count_balance_model_validation():
 
 
 # ── run_invariants raises on violation ────────────────────────────────────────
+
 
 def test_run_invariants_raises_on_violation():
     def bad_fn(x: int) -> InvariantResult:

@@ -3,6 +3,7 @@
 Seed the database with 200 invoices and 250 bank transactions.
 80% of transactions match invoices, 10% partial, 10% no-match.
 """
+
 from __future__ import annotations
 
 import random
@@ -42,8 +43,20 @@ VENDORS = [
 
 # Realistic amount buckets (cents)
 AMOUNT_BUCKETS = [
-    50000, 75000, 100000, 125000, 150000, 175000, 200000,
-    250000, 300000, 350000, 400000, 500000, 750000, 1000000,
+    50000,
+    75000,
+    100000,
+    125000,
+    150000,
+    175000,
+    200000,
+    250000,
+    300000,
+    350000,
+    400000,
+    500000,
+    750000,
+    1000000,
 ]
 
 START_DATE = date(2024, 1, 1)
@@ -91,9 +104,7 @@ def seed_transactions(db: object, invoices: list[dict]) -> None:
         return {
             "id": str(uuid.uuid4()),
             "run_id": None,
-            "date": str(
-                date.fromisoformat(inv["issued_date"]) + timedelta(days=date_offset)
-            ),
+            "date": str(date.fromisoformat(inv["issued_date"]) + timedelta(days=date_offset)),
             "amount_cents": inv["amount_cents"] + jitter_amount,
             "description": inv["vendor"],
             "normalized_merchant": inv["normalized_vendor"],

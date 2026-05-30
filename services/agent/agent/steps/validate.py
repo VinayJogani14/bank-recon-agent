@@ -22,9 +22,7 @@ def _mark_low_confidence_for_escalation(decisions: list[MatchDecision]) -> list[
     return updated
 
 
-def run_validate(
-    run_id: str, match_output: MatchOutput, attempt: int = 1
-) -> ValidateOutput:
+def run_validate(run_id: str, match_output: MatchOutput, attempt: int = 1) -> ValidateOutput:
     with trace_step(run_id, "validate", attempt) as tracer:
         decisions = _mark_low_confidence_for_escalation(match_output.decisions)
 

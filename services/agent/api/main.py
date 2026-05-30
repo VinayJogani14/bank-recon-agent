@@ -33,6 +33,7 @@ app.add_middleware(
 
 # ── Health ────────────────────────────────────────────────────────────────────
 
+
 @app.get("/health")
 def health() -> dict[str, str]:
     return {"status": "ok"}
@@ -40,24 +41,21 @@ def health() -> dict[str, str]:
 
 # ── Prometheus ────────────────────────────────────────────────────────────────
 
+
 @app.get("/metrics")
 def metrics() -> Any:
     from fastapi.responses import Response
+
     return Response(content=generate_latest(), media_type=CONTENT_TYPE_LATEST)
 
 
 # ── Runs ──────────────────────────────────────────────────────────────────────
 
+
 @app.get("/runs", response_model=list[RunDetailResponse])
 def list_runs(limit: int = 50) -> list[RunDetailResponse]:
     db = get_client()
-    resp = (
-        db.table("runs")
-        .select("*")
-        .order("started_at", desc=True)
-        .limit(limit)
-        .execute()
-    )
+    resp = db.table("runs").select("*").order("started_at", desc=True).limit(limit).execute()
     return [RunDetailResponse(**r) for r in (resp.data or [])]
 
 
@@ -89,13 +87,7 @@ def get_run(run_id: str) -> RunDetailResponse:
 @app.get("/runs/{run_id}/traces", response_model=list[TraceResponse])
 def get_traces(run_id: str) -> list[TraceResponse]:
     db = get_client()
-    resp = (
-        db.table("step_traces")
-        .select("*")
-        .eq("run_id", run_id)
-        .order("created_at")
-        .execute()
-    )
+    resp = db.table("step_traces").select("*").eq("run_id", run_id).order("created_at").execute()
     return [TraceResponse(**r) for r in (resp.data or [])]
 
 
@@ -119,6 +111,7 @@ def replay(run_id: str, step_name: str) -> ReplayResponse:
 
 
 # ── Evals ─────────────────────────────────────────────────────────────────────
+
 
 @app.post("/evals/run")
 def trigger_evals() -> dict[str, Any]:
@@ -154,11 +147,5 @@ def trigger_evals() -> dict[str, Any]:
 @app.get("/evals/results", response_model=list[EvalResultResponse])
 def get_eval_results() -> list[EvalResultResponse]:
     db = get_client()
-    resp = (
-        db.table("evals_results")
-        .select("*")
-        .order("ran_at", desc=True)
-        .limit(20)
-        .execute()
-    )
+    resp = db.table("evals_results").select("*").order("ran_at", desc=True).limit(20).execute()
     return [EvalResultResponse(**r) for r in (resp.data or [])]

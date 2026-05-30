@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Generate all golden test cases as JSON files."""
+
 from __future__ import annotations
 
 import json
@@ -82,7 +83,7 @@ CASES = [
     {
         "name": "amount_with_comma",
         "description": "CSV has comma-formatted amount",
-        "input_csv": "date,amount,description,account\n2024-01-15,\"1,500.00\",Acme Corp,checking",
+        "input_csv": 'date,amount,description,account\n2024-01-15,"1,500.00",Acme Corp,checking',
         "expected_matches": ["acme_corp_inv_001"],
         "expected_escalations": [],
     },

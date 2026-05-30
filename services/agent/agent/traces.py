@@ -73,9 +73,7 @@ class TraceWriter:
 
 
 @contextmanager
-def trace_step(
-    run_id: str, step_name: str, attempt: int = 1
-) -> Generator[TraceWriter, None, None]:
+def trace_step(run_id: str, step_name: str, attempt: int = 1) -> Generator[TraceWriter, None, None]:
     writer = TraceWriter(run_id, step_name, attempt)
     writer.start()
     yield writer

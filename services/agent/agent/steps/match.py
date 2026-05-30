@@ -58,9 +58,7 @@ def _fetch_invoice_candidates(
     return sorted(candidates, key=lambda c: c.vendor_similarity, reverse=True)
 
 
-def _rule_match(
-    txn: EnrichedTransaction, candidates: list[MatchCandidate]
-) -> MatchDecision | None:
+def _rule_match(txn: EnrichedTransaction, candidates: list[MatchCandidate]) -> MatchDecision | None:
     """Exact amount + date window + fuzzy vendor threshold."""
     for c in candidates:
         if (
@@ -115,7 +113,9 @@ def _decide_for_transaction(
             if total_cost is not None:
                 total_cost[0] += result.cost_usd
 
-            escalate = result.invoice_id is None or result.confidence < settings.confidence_threshold
+            escalate = (
+                result.invoice_id is None or result.confidence < settings.confidence_threshold
+            )
             return MatchDecision(
                 transaction_id=txn.transaction_id,
                 invoice_id=result.invoice_id,

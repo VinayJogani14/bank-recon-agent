@@ -80,8 +80,7 @@ def llm_pick_match(inp: LLMMatchInput, temperature: float = 0.0) -> LLMMatchOutp
         f"  amount: ${inp.amount_cents / 100:.2f}\n"
         f"  merchant: {inp.normalized_merchant}\n"
         f"  description: {inp.description}\n\n"
-        f"Candidate invoices:\n"
-        + json.dumps(inp.candidates, indent=2, default=str)
+        f"Candidate invoices:\n" + json.dumps(inp.candidates, indent=2, default=str)
     )
 
     client = _get_client()
