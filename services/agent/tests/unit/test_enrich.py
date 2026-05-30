@@ -47,8 +47,8 @@ def test_enrich_output_count_matches_input(mock_ctx: MagicMock) -> None:
     mock_ctx.return_value.__enter__ = MagicMock(return_value=writer)
     mock_ctx.return_value.__exit__ = MagicMock(return_value=False)
 
-    from agent.steps.enrich import run_enrich
     from agent.schemas.models import IngestOutput, RawTransaction
+    from agent.steps.enrich import run_enrich
 
     txns = [
         RawTransaction(row_index=i, date=date(2024, 1, 15), amount_cents=100000,
@@ -66,8 +66,8 @@ def test_enrich_amounts_never_change(mock_ctx: MagicMock) -> None:
     mock_ctx.return_value.__enter__ = MagicMock(return_value=writer)
     mock_ctx.return_value.__exit__ = MagicMock(return_value=False)
 
-    from agent.steps.enrich import run_enrich
     from agent.schemas.models import IngestOutput, RawTransaction
+    from agent.steps.enrich import run_enrich
 
     txns = [
         RawTransaction(row_index=0, date=date(2024, 1, 15), amount_cents=999999,
@@ -85,8 +85,8 @@ def test_enrich_normalizes_merchant(mock_ctx: MagicMock) -> None:
     mock_ctx.return_value.__enter__ = MagicMock(return_value=writer)
     mock_ctx.return_value.__exit__ = MagicMock(return_value=False)
 
-    from agent.steps.enrich import run_enrich
     from agent.schemas.models import IngestOutput, RawTransaction
+    from agent.steps.enrich import run_enrich
 
     txns = [
         RawTransaction(row_index=0, date=date(2024, 1, 15), amount_cents=150000,

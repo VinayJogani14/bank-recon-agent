@@ -2,9 +2,8 @@ from __future__ import annotations
 
 import json
 import time
-import uuid
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -183,7 +182,7 @@ def _persist_eval_result(report: EvalReport) -> None:
         db = get_client()
         db.table("evals_results").insert(
             {
-                "ran_at": datetime.now(timezone.utc).isoformat(),
+                "ran_at": datetime.now(UTC).isoformat(),
                 "total_cases": report.total_cases,
                 "passed": report.passed,
                 "accuracy": report.accuracy,

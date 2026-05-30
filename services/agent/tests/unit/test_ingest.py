@@ -1,8 +1,9 @@
 """Unit tests for the ingest step."""
 from __future__ import annotations
 
-import pytest
 from unittest.mock import MagicMock, patch
+
+import pytest
 
 
 def _make_csv(rows: list[str]) -> bytes:
@@ -99,6 +100,6 @@ def test_ingest_comma_formatted_amount(mock_ctx: MagicMock) -> None:
 
     from agent.steps.ingest import run_ingest
 
-    csv = "date,amount,description,account\n2024-01-15,\"1,500.00\",Acme Corp,checking\n".encode()
+    csv = b"date,amount,description,account\n2024-01-15,\"1,500.00\",Acme Corp,checking\n"
     output = run_ingest("run-1", csv)
     assert output.valid_rows[0].amount_cents == 150000

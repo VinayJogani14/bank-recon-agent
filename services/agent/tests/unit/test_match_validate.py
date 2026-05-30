@@ -5,15 +5,13 @@ from datetime import date
 from unittest.mock import MagicMock, patch
 
 from agent.schemas.models import (
-    EnrichOutput,
     EnrichedTransaction,
+    MatchCandidate,
     MatchDecision,
     MatchOutput,
-    ValidateOutput,
 )
 from agent.steps.enrich import _normalize_merchant
 from agent.steps.match import _rule_match
-from agent.schemas.models import MatchCandidate
 
 
 def _make_txn(

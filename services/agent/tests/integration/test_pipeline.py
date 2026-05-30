@@ -6,9 +6,7 @@ from __future__ import annotations
 
 import uuid
 from datetime import date
-from typing import Any
 from unittest.mock import MagicMock, patch
-
 
 FIXTURE_CSV = b"""date,amount,description,account
 2024-01-15,1500.00,Acme Corp,checking
@@ -69,7 +67,7 @@ def test_pipeline_end_to_end(mock_supabase: MagicMock) -> None:
 
     mock_supabase.table.side_effect = table_side_effect
 
-    from agent.steps import run_ingest, run_enrich, run_match, run_validate, run_post
+    from agent.steps import run_enrich, run_ingest, run_match, run_post, run_validate
 
     # Step 1: Ingest
     ingest_out = run_ingest(run_id, FIXTURE_CSV)

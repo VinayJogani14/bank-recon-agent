@@ -1,11 +1,11 @@
 """Unit tests for Pydantic schema validation."""
 from __future__ import annotations
 
-import pytest
 from datetime import date
 
+import pytest
+
 from agent.schemas.models import (
-    IngestOutput,
     MatchDecision,
     PostOutput,
     RawTransaction,

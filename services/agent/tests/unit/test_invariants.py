@@ -1,20 +1,21 @@
 """Unit tests for every invariant function."""
 from __future__ import annotations
 
-import pytest
 from datetime import date
+
+import pytest
 
 from agent.invariants.base import InvariantViolation, run_invariants
 from agent.invariants.step_invariants import (
-    ingest_invariants,
     enrich_invariants,
+    ingest_invariants,
     match_invariants,
-    validate_invariants,
     post_invariants,
+    validate_invariants,
 )
 from agent.schemas.models import (
-    EnrichOutput,
     EnrichedTransaction,
+    EnrichOutput,
     IngestOutput,
     InvariantResult,
     MatchDecision,
@@ -24,7 +25,6 @@ from agent.schemas.models import (
     RawTransaction,
     ValidateOutput,
 )
-
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
 
