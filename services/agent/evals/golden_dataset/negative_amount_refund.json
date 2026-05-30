@@ -1,0 +1,9 @@
+{
+  "name": "negative_amount_refund",
+  "description": "Negative amount (refund) \u2014 should escalate",
+  "input_csv": "date,amount,description,account\n2024-01-15,-500.00,Acme Corp Refund,checking",
+  "expected_matches": [],
+  "expected_escalations": [
+    "refund_txn"
+  ]
+}

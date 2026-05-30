@@ -1,0 +1,9 @@
+{
+  "name": "date_out_of_window",
+  "description": "Transaction date 10 days after invoice \u2014 outside 7-day window",
+  "input_csv": "date,amount,description,account\n2024-01-25,1500.00,Acme Corp,checking",
+  "expected_matches": [],
+  "expected_escalations": [
+    "acme_txn_late"
+  ]
+}

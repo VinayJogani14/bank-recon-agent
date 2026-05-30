@@ -1,0 +1,9 @@
+{
+  "name": "amount_off_by_cent",
+  "description": "Amount differs by 1 cent \u2014 should escalate",
+  "input_csv": "date,amount,description,account\n2024-01-15,1499.99,Acme Corp,checking",
+  "expected_matches": [],
+  "expected_escalations": [
+    "acme_corp_txn"
+  ]
+}

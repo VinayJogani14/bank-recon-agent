@@ -1,0 +1,9 @@
+{
+  "name": "low_confidence_escalation",
+  "description": "LLM returns confidence 0.6, must escalate",
+  "input_csv": "date,amount,description,account\n2024-01-15,1234.56,Ambiguous Vendor,checking",
+  "expected_matches": [],
+  "expected_escalations": [
+    "ambiguous_txn"
+  ]
+}

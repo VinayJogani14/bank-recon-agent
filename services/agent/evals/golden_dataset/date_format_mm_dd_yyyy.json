@@ -1,0 +1,9 @@
+{
+  "name": "date_format_mm_dd_yyyy",
+  "description": "Date in MM/DD/YYYY format",
+  "input_csv": "date,amount,description,account\n01/15/2024,1500.00,Acme Corp,checking",
+  "expected_matches": [
+    "acme_corp_inv_001"
+  ],
+  "expected_escalations": []
+}

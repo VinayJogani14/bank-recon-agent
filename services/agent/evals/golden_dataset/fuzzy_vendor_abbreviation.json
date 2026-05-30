@@ -1,0 +1,9 @@
+{
+  "name": "fuzzy_vendor_abbreviation",
+  "description": "Abbreviated vendor in transaction",
+  "input_csv": "date,amount,description,account\n2024-01-16,2200.00,Beta Sol,checking",
+  "expected_matches": [
+    "beta_solutions_inv_001"
+  ],
+  "expected_escalations": []
+}

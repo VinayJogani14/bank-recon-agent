@@ -1,0 +1,9 @@
+{
+  "name": "malformed_row_invalid_date",
+  "description": "One row has invalid date, rest valid",
+  "input_csv": "date,amount,description,account\nnot-a-date,1500.00,Acme Corp,checking\n2024-01-16,2200.00,Beta Solutions,checking",
+  "expected_matches": [
+    "beta_solutions_inv_001"
+  ],
+  "expected_escalations": []
+}

@@ -1,0 +1,9 @@
+{
+  "name": "amount_with_comma",
+  "description": "CSV has comma-formatted amount",
+  "input_csv": "date,amount,description,account\n2024-01-15,\"1,500.00\",Acme Corp,checking",
+  "expected_matches": [
+    "acme_corp_inv_001"
+  ],
+  "expected_escalations": []
+}

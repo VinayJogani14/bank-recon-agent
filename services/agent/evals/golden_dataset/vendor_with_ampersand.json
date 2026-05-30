@@ -1,0 +1,9 @@
+{
+  "name": "vendor_with_ampersand",
+  "description": "Vendor name with & symbol",
+  "input_csv": "date,amount,description,account\n2024-01-16,2200.00,Beta & Solutions,checking",
+  "expected_matches": [
+    "beta_solutions_inv_001"
+  ],
+  "expected_escalations": []
+}

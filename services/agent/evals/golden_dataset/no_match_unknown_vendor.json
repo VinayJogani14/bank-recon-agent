@@ -1,0 +1,9 @@
+{
+  "name": "no_match_unknown_vendor",
+  "description": "Vendor with no invoice in DB",
+  "input_csv": "date,amount,description,account\n2024-01-15,999.00,Unknown Vendor XYZ,checking",
+  "expected_matches": [],
+  "expected_escalations": [
+    "unknown_vendor_txn"
+  ]
+}

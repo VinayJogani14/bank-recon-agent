@@ -1,0 +1,11 @@
+{
+  "name": "duplicate_invoice_prevention",
+  "description": "Two transactions match same invoice \u2014 second must escalate",
+  "input_csv": "date,amount,description,account\n2024-01-15,1500.00,Acme Corp,checking\n2024-01-15,1500.00,Acme Corp,savings",
+  "expected_matches": [
+    "acme_corp_inv_001"
+  ],
+  "expected_escalations": [
+    "duplicate_acme_txn"
+  ]
+}

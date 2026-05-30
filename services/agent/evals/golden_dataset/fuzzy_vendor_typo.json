@@ -1,0 +1,9 @@
+{
+  "name": "fuzzy_vendor_typo",
+  "description": "Slight typo in vendor name (Acme -> Akme)",
+  "input_csv": "date,amount,description,account\n2024-01-15,1500.00,Akme Corp,checking",
+  "expected_matches": [
+    "acme_corp_inv_001"
+  ],
+  "expected_escalations": []
+}

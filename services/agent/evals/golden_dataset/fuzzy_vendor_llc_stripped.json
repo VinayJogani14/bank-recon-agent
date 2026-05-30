@@ -1,0 +1,9 @@
+{
+  "name": "fuzzy_vendor_llc_stripped",
+  "description": "Invoice has LLC suffix, transaction doesn't",
+  "input_csv": "date,amount,description,account\n2024-01-15,1500.00,Acme,checking",
+  "expected_matches": [
+    "acme_corp_inv_001"
+  ],
+  "expected_escalations": []
+}

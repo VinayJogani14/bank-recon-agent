@@ -1,0 +1,19 @@
+{
+  "name": "batch_10_transactions",
+  "description": "10 transactions, 8 match, 2 escalate",
+  "input_csv": "date,amount,description,account\n2024-01-15,1000.00,Vendor00,checking\n2024-01-16,1000.00,Vendor01,checking\n2024-01-17,1000.00,Vendor02,checking\n2024-01-18,1000.00,Vendor03,checking\n2024-01-19,1000.00,Vendor04,checking\n2024-01-20,1000.00,Vendor05,checking\n2024-01-21,1000.00,Vendor06,checking\n2024-01-22,1000.00,Vendor07,checking\n2024-01-23,1000.00,Vendor08,checking\n2024-01-24,1000.00,Vendor09,checking",
+  "expected_matches": [
+    "vendor_00_inv",
+    "vendor_01_inv",
+    "vendor_02_inv",
+    "vendor_03_inv",
+    "vendor_04_inv",
+    "vendor_05_inv",
+    "vendor_06_inv",
+    "vendor_07_inv"
+  ],
+  "expected_escalations": [
+    "vendor_08_txn",
+    "vendor_09_txn"
+  ]
+}

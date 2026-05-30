@@ -1,0 +1,9 @@
+{
+  "name": "no_match_all_invoices_matched",
+  "description": "All open invoices already matched in prior run",
+  "input_csv": "date,amount,description,account\n2024-02-15,1500.00,Acme Corp,checking",
+  "expected_matches": [],
+  "expected_escalations": [
+    "acme_already_matched_txn"
+  ]
+}

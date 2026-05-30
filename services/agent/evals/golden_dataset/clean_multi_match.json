@@ -1,0 +1,11 @@
+{
+  "name": "clean_multi_match",
+  "description": "3 clean matches no ambiguity",
+  "input_csv": "date,amount,description,account\n2024-01-15,1500.00,Acme Corp,checking\n2024-01-16,2200.00,Beta Solutions,checking\n2024-01-17,800.00,Gamma Inc,checking",
+  "expected_matches": [
+    "acme_corp_inv_001",
+    "beta_solutions_inv_001",
+    "gamma_inv_001"
+  ],
+  "expected_escalations": []
+}

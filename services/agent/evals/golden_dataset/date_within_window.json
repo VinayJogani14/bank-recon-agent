@@ -1,0 +1,9 @@
+{
+  "name": "date_within_window",
+  "description": "Transaction date 5 days after invoice \u2014 within 7-day window",
+  "input_csv": "date,amount,description,account\n2024-01-20,1500.00,Acme Corp,checking",
+  "expected_matches": [
+    "acme_corp_inv_001"
+  ],
+  "expected_escalations": []
+}

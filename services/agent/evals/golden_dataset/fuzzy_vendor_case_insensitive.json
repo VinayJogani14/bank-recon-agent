@@ -1,0 +1,9 @@
+{
+  "name": "fuzzy_vendor_case_insensitive",
+  "description": "Vendor in all caps",
+  "input_csv": "date,amount,description,account\n2024-01-17,800.00,GAMMA INC,checking",
+  "expected_matches": [
+    "gamma_inv_001"
+  ],
+  "expected_escalations": []
+}

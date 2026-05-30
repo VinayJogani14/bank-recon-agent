@@ -1,0 +1,9 @@
+{
+  "name": "unicode_vendor_name",
+  "description": "Vendor name with unicode characters",
+  "input_csv": "date,amount,description,account\n2024-01-15,900.00,M\u00fcller & Co,checking",
+  "expected_matches": [],
+  "expected_escalations": [
+    "unicode_txn"
+  ]
+}

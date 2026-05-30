@@ -1,0 +1,9 @@
+{
+  "name": "date_before_invoice",
+  "description": "Transaction date 3 days before invoice \u2014 within window",
+  "input_csv": "date,amount,description,account\n2024-01-12,1500.00,Acme Corp,checking",
+  "expected_matches": [
+    "acme_corp_inv_001"
+  ],
+  "expected_escalations": []
+}

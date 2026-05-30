@@ -1,0 +1,7 @@
+{
+  "name": "malformed_csv_wrong_columns",
+  "description": "CSV missing required 'account' column",
+  "input_csv": "date,amount,description\n2024-01-15,1500.00,Acme Corp",
+  "expected_matches": [],
+  "expected_escalations": []
+}
