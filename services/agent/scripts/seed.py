@@ -96,6 +96,9 @@ def seed_invoices(db: object) -> list[dict]:
     return invoices
 
 
+SEED_RUN_ID = "00000000-0000-0000-0000-000000000001"
+
+
 def seed_transactions(db: object, invoices: list[dict]) -> None:
     transactions = []
     used_invoice_ids: set[str] = set()
@@ -103,7 +106,7 @@ def seed_transactions(db: object, invoices: list[dict]) -> None:
     def make_txn(inv: dict, jitter_amount: int = 0, date_offset: int = 0) -> dict:
         return {
             "id": str(uuid.uuid4()),
-            "run_id": None,
+            "run_id": SEED_RUN_ID,
             "date": str(date.fromisoformat(inv["issued_date"]) + timedelta(days=date_offset)),
             "amount_cents": inv["amount_cents"] + jitter_amount,
             "description": inv["vendor"],
@@ -114,8 +117,8 @@ def seed_transactions(db: object, invoices: list[dict]) -> None:
 
     available = [inv for inv in invoices if inv["id"] not in used_invoice_ids]
 
-    # 80% clean matches (200 txns)
-    clean_count = 200
+    # 80% clean matches (175 txns, leaving 25 for partial)
+    clean_count = 175
     for inv in random.sample(available, clean_count):
         used_invoice_ids.add(inv["id"])
         transactions.append(make_txn(inv, jitter_amount=0, date_offset=random.randint(0, 3)))
@@ -131,7 +134,7 @@ def seed_transactions(db: object, invoices: list[dict]) -> None:
         transactions.append(
             {
                 "id": str(uuid.uuid4()),
-                "run_id": None,
+                "run_id": SEED_RUN_ID,
                 "date": str(random_date(START_DATE, 90)),
                 "amount_cents": random.choice(AMOUNT_BUCKETS),
                 "description": f"Unknown Vendor {fake.company()}",
@@ -155,6 +158,15 @@ def main() -> None:
     print("Seeding database...")
     db = get_client()
     print("  connected to Supabase")
+
+    # Seed run record so bank_transactions FK is satisfied
+    db.table("runs").upsert(  # type: ignore[attr-defined]
+        {
+            "id": SEED_RUN_ID,
+            "status": "completed",
+            "csv_filename": "seed_data.csv",
+        }
+    ).execute()
 
     invoices = seed_invoices(db)
     seed_transactions(db, invoices)

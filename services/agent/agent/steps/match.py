@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from datetime import date as date_type
 from datetime import timedelta
 from typing import Any
 
@@ -42,16 +43,21 @@ def _fetch_invoice_candidates(
 
     candidates: list[MatchCandidate] = []
     for row in rows:
+        issued = (
+            row["issued_date"]
+            if isinstance(row["issued_date"], date_type)
+            else date_type.fromisoformat(str(row["issued_date"]))
+        )
         sim = fuzz.token_sort_ratio(txn.normalized_merchant, row["normalized_vendor"])
         candidates.append(
             MatchCandidate(
                 invoice_id=row["id"],
                 vendor=row["vendor"],
                 amount_cents=row["amount_cents"],
-                issued_date=row["issued_date"],
+                issued_date=issued,
                 due_date=row["due_date"],
                 amount_diff_cents=abs(txn.amount_cents - row["amount_cents"]),
-                date_diff_days=abs((txn.date - row["issued_date"]).days),
+                date_diff_days=abs((txn.date - issued).days),
                 vendor_similarity=sim,
             )
         )
